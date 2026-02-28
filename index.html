@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>馮元詰 (Francis) — 全端工程師</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: #fafaf8;
+      color: #18181b;
+    }
+
+    .font-pixel { font-family: 'Press Start 2P', monospace; }
+    .pixel-render { image-rendering: pixelated; }
+
+    /* Pixel border */
+    .pixel-border {
+      border: 3px solid #18181b;
+      box-shadow: 3px 3px 0 0 #18181b;
+    }
+    .pixel-border-thin {
+      border: 2px solid #d4d4d8;
+    }
+
+    /* Glitch */
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+    }
+    @keyframes glitch-color {
+      0%, 100% { text-shadow: none; }
+      33% { text-shadow: -2px 0 #ff0040, 2px 0 #0aa; }
+      66% { text-shadow: 2px 0 #ff0040, -2px 0 #0aa; }
+    }
+    .glitch:hover {
+      animation: glitch 0.3s ease infinite, glitch-color 0.3s ease infinite;
+    }
+
+    /* Typing cursor */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .cursor::after {
+      content: '█';
+      animation: blink 0.7s step-end infinite;
+      color: #18181b;
+      margin-left: 2px;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Section divider */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2.5rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: #e4e4e7;
+    }
+
+    /* Links */
+    a {
+      color: #18181b;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    /* Nav */
+    .nav-btn {
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border: 2px solid #e4e4e7;
+      background: transparent;
+      color: #a1a1aa;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      border-color: #18181b;
+      color: #18181b;
+      box-shadow: 2px 2px 0 #18181b;
+    }
+
+    /* Scroll progress */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: #18181b;
+      z-index: 10000;
+      transition: width 0.1s;
+    }
+
+    /* Card hover */
+    .card-hover {
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .card-hover:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 #18181b;
+      border-color: #18181b;
+    }
+
+    /* Media badge */
+    .media-badge {
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border: 2px solid #18181b;
+      background: #18181b;
+      color: #fafaf8;
+      display: inline-block;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Press card link */
+    .press-card {
+      border-bottom: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      cursor: pointer;
+    }
+    .press-card:hover .press-title {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Project card */
+    .project-img {
+      background: #f0f0ec;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Timeline */
+    .timeline-dot {
+      width: 10px; height: 10px;
+      border: 2px solid #18181b;
+      background: #fafaf8;
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+    .timeline-item:hover .timeline-dot {
+      background: #18181b;
+    }
+    .timeline-line {
+      width: 2px;
+      background: #e4e4e7;
+    }
+
+    /* Floating pixels */
+    @keyframes float-up {
+      0% { transform: translateY(100vh); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-20px); opacity: 0; }
+    }
+    .floating-pixel {
+      position: fixed;
+      width: 3px; height: 3px;
+      background: #d4d4d8;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* CTA */
+    .cta-btn {
+      display: inline-block;
+      padding: 12px 32px;
+      border: 3px solid #18181b;
+      background: #18181b;
+      color: #fafaf8;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 2px;
+      transition: all 0.15s;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 0 #a1a1aa;
+    }
+    .cta-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 0 #18181b;
+      background: #27272a;
+      border-bottom: 3px solid #18181b;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .floating-pixel { display: none; }
+      .glitch:hover { animation: none; }
+      .cursor::after { animation: none; opacity: 1; }
+    }
+
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+  <div id="particles"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex gap-1.5 bg-white/90 backdrop-blur-sm px-3 py-2 border-2 border-zinc-200 shadow-sm">
+    <button class="nav-btn active" data-target="hero">首頁</button>
+    <button class="nav-btn" data-target="projects">作品</button>
+    <button class="nav-btn" data-target="press">報導</button>
+    <button class="nav-btn" data-target="awards">獎項</button>
+    <button class="nav-btn" data-target="experience">經歷</button>
+    <button class="nav-btn" data-target="more">其他</button>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pb-24">
+
+    <!-- ██ HERO ██ -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center pt-16">
+      <div class="mb-6 relative">
+        <div class="w-28 h-28 pixel-border overflow-hidden glitch">
+          <img src="大頭照.JPG" alt="馮元詰" class="w-full h-full object-cover" />
+        </div>
+        <div class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-zinc-900 pixel-render animate-pulse"></div>
+        <div class="absolute -bottom-1.5 -left-1.5 w-2.5 h-2.5 bg-zinc-400 pixel-render animate-pulse" style="animation-delay:.5s"></div>
+      </div>
+
+      <h1 class="font-pixel text-lg md:text-xl mb-3 glitch leading-relaxed" id="hero-name"></h1>
+      <p class="text-base text-zinc-400 mb-4 cursor font-bold tracking-widest" id="hero-title"></p>
+      <p class="text-[15px] text-zinc-400 mb-8 leading-relaxed" id="hero-tagline" style="opacity:0">在喜劇產業不務正業的工程師</p>
+
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-zinc-400">
+        <a href="mailto:fong54388@gmail.com" class="hover:text-zinc-900 border-b border-dashed border-zinc-300 hover:border-zinc-900 pb-0.5">Email</a>
+        <a href="https://github.com/twohorse0311" target="_blank" class="hover:text-zinc-900 border-b border-dashed border-zinc-300 hover:border-zinc-900 pb-0.5">GitHub</a>
+        <a href="https://www.linkedin.com/in/yuan-jie-fong-9289061b4" target="_blank" class="hover:text-zinc-900 border-b border-dashed border-zinc-300 hover:border-zinc-900 pb-0.5">LinkedIn</a>
+      </div>
+
+      <div class="mt-20 font-pixel text-[8px] text-zinc-300 animate-bounce">
+        ▼ SCROLL ▼
+      </div>
+    </section>
+
+    <!-- ██ ABOUT ██ -->
+    <section id="about" class="py-16">
+      <div class="reveal text-[15px] leading-[2] text-zinc-600 max-w-xl mx-auto">
+        <p>我是馮元詰，大家都叫我小馮，一個在喜劇產業不務正業的工程師。</p>
+        <p>目標是養一隻黃金獵犬然後去賣地瓜球，是個<strong class="text-zinc-900">以「好玩」為驅動力在過日子的傢伙。</strong></p>
+      </div>
+    </section>
+
+    <!-- ██ PROJECTS ██ -->
+    <section id="projects" class="py-16">
+      <div class="section-title reveal">
+        <h2 class="text-sm font-black tracking-[0.2em] text-zinc-900 shrink-0">精選作品</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Project: VIP System -->
+        <div class="reveal pixel-border-thin card-hover bg-white overflow-hidden flex flex-col">
+          <div class="h-52 overflow-hidden bg-zinc-100">
+            <img src="inviti.png" alt="VIP 管理系統截圖" class="project-img" />
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex flex-wrap items-baseline justify-between gap-2 mb-1">
+              <h3 class="text-base font-black text-zinc-900">VIP 管理系統</h3>
+              <a href="https://inviti.vip/" target="_blank" class="text-xs text-zinc-400 border-b border-dashed border-zinc-300 hover:border-zinc-900 hover:text-zinc-900">inviti.vip →</a>
+            </div>
+            <p class="text-sm text-zinc-400 mb-3">薩泰爾娛樂 · 2024</p>
+            <p class="text-[15px] leading-[1.8] text-zinc-600 flex-1">
+              為薩泰爾打造的即時 VIP 管理系統。以 DDD 方法論跨部門協作開發，<strong class="text-zinc-900">減少 90% 禮賓人員工作量</strong>。
+            </p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="text-[11px] text-zinc-400 border border-zinc-200 px-2 py-0.5">Django</span>
+              <span class="text-[11px] text-zinc-400 border border-zinc-200 px-2 py-0.5">WebSocket</span>
+              <span class="text-[11px] text-zinc-400 border border-zinc-200 px-2 py-0.5">Redis</span>
+              <span class="text-[11px] text-zinc-400 border border-zinc-200 px-2 py-0.5">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project: Accounting System -->
+        <div class="reveal pixel-border-thin card-hover bg-white overflow-hidden flex flex-col">
+          <div class="h-52 overflow-hidden bg-zinc-100">
+            <img src="str.png" alt="內部會計系統截圖" class="project-img" />
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="flex flex-wrap items-baseline justify-between gap-2 mb-1">
+              <h3 class="text-base font-black text-zinc-900">內部會計系統</h3>
+            </div>
+            <p class="text-sm text-zinc-400 mb-3">薩泰爾娛樂 · 2024</p>
+            <p class="text-[15px] leading-[1.8] text-zinc-600 flex-1">
+              涵蓋請款、匯款與專案預付款的全流程會計系統。與營運及財務團隊深度訪談後設計，<strong class="text-zinc-900">處理時間縮短 70%，達到零錯誤</strong>。
+            </p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="text-[11px] text-zinc-400 border border-zinc-200 px-2 py-0.5">Django</span>
+              <span class="text-[11px] text-zinc-400 border border-zinc-200 px-2 py-0.5">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ██ PRESS ██ -->
+    <section id="press" class="py-16">
+      <div class="section-title reveal">
+        <h2 class="text-sm font-black tracking-[0.2em] text-zinc-900 shrink-0">媒體報導</h2>
+      </div>
+
+      <div class="space-y-4">
+        <a href="https://www.businessweekly.com.tw/Archive/Article?StrId=7011988" target="_blank"
+           class="reveal pixel-border-thin p-5 card-hover bg-white press-card">
+          <span class="media-badge mt-0.5">商周</span>
+          <div class="min-w-0">
+            <p class="text-base font-bold text-zinc-900 leading-relaxed press-title">從害怕被 ChatGPT 取代到玩轉 AI，菜鳥工程師兩年練出十年功</p>
+            <p class="text-sm text-zinc-400 mt-1.5">businessweekly.com.tw</p>
+          </div>
+        </a>
+
+        <a href="https://www.gvm.com.tw/article/119569" target="_blank"
+           class="reveal pixel-border-thin p-5 card-hover bg-white press-card">
+          <span class="media-badge mt-0.5">遠見</span>
+          <div class="min-w-0">
+            <p class="text-base font-bold text-zinc-900 leading-relaxed press-title">《博恩夜夜秀》幕後功臣：薩泰爾團隊 AI 神用法，如何讓全員升級？</p>
+            <p class="text-sm text-zinc-400 mt-1.5">gvm.com.tw</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ██ AWARDS ██ -->
+    <section id="awards" class="py-16">
+      <div class="section-title reveal">
+        <h2 class="text-sm font-black tracking-[0.2em] text-zinc-900 shrink-0">獎項與演講</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="reveal pixel-border-thin p-5 card-hover bg-white">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="media-badge">商周</span>
+          </div>
+          <h3 class="text-[15px] font-black text-zinc-900 mb-2"><a href="https://www.businessweekly.com.tw/event/ai100/" target="_blank" class="border-b border-dashed border-zinc-300 hover:border-zinc-900">AI 創新百強</a></h3>
+          <p class="text-sm leading-[1.8] text-zinc-600">
+            主導 AI 開發計畫，協助 STR Network 入選<strong class="text-zinc-900">商業周刊 AI 創新 Top 100</strong>。
+          </p>
+        </div>
+
+        <div class="reveal pixel-border-thin p-5 card-hover bg-white">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="media-badge">講者</span>
+          </div>
+          <h3 class="text-[15px] font-black text-zinc-900 mb-2">
+            <a href="https://webconf.tw/speakers/40" target="_blank" class="border-b border-dashed border-zinc-300 hover:border-zinc-900">WebConf Taiwan 2025</a>
+          </h3>
+          <p class="text-sm leading-[1.8] text-zinc-600">
+            <strong class="text-zinc-900">「AI 時間槓桿 — 全端工程師的單人升級之旅」</strong>。
+          </p>
+        </div>
+
+        <div class="reveal pixel-border-thin p-5 card-hover bg-white">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="media-badge">講者</span>
+          </div>
+          <h3 class="text-[15px] font-black text-zinc-900 mb-2">
+            <a href="https://www.canva.com/design/DAGvljDsHnI/0Ql_-kPZTYmsUD6Kogfnrg/view?utm_content=DAGvljDsHnI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8eb4b0a628" target="_blank" class="border-b border-dashed border-zinc-300 hover:border-zinc-900">AI 小聚</a>
+          </h3>
+          <p class="text-sm leading-[1.8] text-zinc-600">
+            <strong class="text-zinc-900">「DDD 簡介 — 以薩泰爾內部報帳流程開發為例」</strong>。
+          </p>
+        </div>
+
+        <div class="reveal pixel-border-thin p-5 card-hover bg-white">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="media-badge">講者</span>
+          </div>
+          <h3 class="text-[15px] font-black text-zinc-900 mb-2">
+            <a href="https://www.canva.com/design/DAGt5KfeWgU/aZnqv4SXhS-CWcn_oNVa0A/view?utm_content=DAGt5KfeWgU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6627e9a61e" target="_blank" class="border-b border-dashed border-zinc-300 hover:border-zinc-900">AAMA 聯合實習生培訓課程</a>
+          </h3>
+          <p class="text-sm leading-[1.8] text-zinc-600">
+            <strong class="text-zinc-900">「內容產業 x AI：快速開發、自動化解決方案」</strong>。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ██ EXPERIENCE (compact timeline) ██ -->
+    <section id="experience" class="py-16">
+      <div class="section-title reveal">
+        <h2 class="text-sm font-black tracking-[0.2em] text-zinc-900 shrink-0">經歷</h2>
+      </div>
+
+      <div class="relative ml-5">
+        <div class="absolute left-0 top-2 bottom-0 timeline-line"></div>
+
+        <div class="timeline-item reveal mb-6 pl-7 relative">
+          <div class="timeline-dot absolute left-[-4px] top-1.5"></div>
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <p class="text-[15px] text-zinc-900 font-bold">薩泰爾娛樂 STR Network</p>
+            <span class="text-xs text-zinc-400 tabular-nums">2024.01 — 至今</span>
+          </div>
+          <p class="text-sm text-zinc-400">軟體工程師</p>
+        </div>
+
+        <div class="timeline-item reveal mb-6 pl-7 relative">
+          <div class="timeline-dot absolute left-[-4px] top-1.5"></div>
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <p class="text-[15px] text-zinc-900 font-bold">安美諾生技 Amiino</p>
+            <span class="text-xs text-zinc-400 tabular-nums">2025.03 — 至今</span>
+          </div>
+          <p class="text-sm text-zinc-400">廣告數據分析師</p>
+        </div>
+
+        <div class="timeline-item reveal mb-6 pl-7 relative">
+          <div class="timeline-dot absolute left-[-4px] top-1.5"></div>
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <p class="text-[15px] text-zinc-900 font-bold">國立臺北大學 統計學系</p>
+            <span class="text-xs text-zinc-400 tabular-nums">2025.09 — 至今</span>
+          </div>
+          <p class="text-sm text-zinc-400">課程講師 · Python 全端開發</p>
+        </div>
+
+        <div class="timeline-item reveal mb-6 pl-7 relative">
+          <div class="timeline-dot absolute left-[-4px] top-1.5"></div>
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <p class="text-[15px] text-zinc-900 font-bold">個人工作室（影視產業）</p>
+            <span class="text-xs text-zinc-400 tabular-nums">2021.04 — 至今</span>
+          </div>
+          <p class="text-sm text-zinc-400">數據分析師</p>
+        </div>
+
+        <div class="timeline-item reveal mb-6 pl-7 relative">
+          <div class="timeline-dot absolute left-[-4px] top-1.5"></div>
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <p class="text-[15px] text-zinc-900 font-bold">國立清華大學</p>
+            <span class="text-xs text-zinc-400 tabular-nums">2022 — 2024</span>
+          </div>
+          <p class="text-sm text-zinc-400">服務科學研究所 · 主修資訊系統與商業分析</p>
+        </div>
+
+        <div class="timeline-item reveal pl-7 relative">
+          <div class="timeline-dot absolute left-[-4px] top-1.5"></div>
+          <div class="flex flex-wrap justify-between items-baseline gap-2">
+            <p class="text-[15px] text-zinc-900 font-bold">國立臺北大學</p>
+            <span class="text-xs text-zinc-400 tabular-nums">2017 — 2021</span>
+          </div>
+          <p class="text-sm text-zinc-400">統計學系 學士</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ██ MORE ██ -->
+    <section id="more" class="py-16">
+      <div class="section-title reveal">
+        <h2 class="text-sm font-black tracking-[0.2em] text-zinc-900 shrink-0">其他經歷</h2>
+      </div>
+
+      <div class="space-y-5">
+        <div class="reveal pixel-border-thin card-hover bg-white overflow-hidden">
+          <div class="md:flex">
+            <div class="md:w-56 md:shrink-0 h-48 md:h-auto overflow-hidden">
+              <img src="中餐丙級.jpg" alt="中餐烹調丙級證照" class="w-full h-full object-cover" />
+            </div>
+            <div class="p-5 flex flex-col justify-center">
+              <h3 class="text-base font-black text-zinc-900 mb-2">中餐丙級證照</h3>
+              <p class="text-[15px] leading-[1.8] text-zinc-600">
+                怕 AI 會取代我，先去考個證照，至少餓不死。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://www.instagram.com/twohorse_/" target="_blank" class="reveal pixel-border-thin card-hover bg-white overflow-hidden block border-b-0">
+          <div class="md:flex">
+            <div class="md:w-56 md:shrink-0 h-48 md:h-auto overflow-hidden">
+              <img src="twohorse.PNG" alt="寫字帳號 twohorse" class="w-full h-full object-cover" />
+            </div>
+            <div class="p-5 flex flex-col justify-center">
+              <h3 class="text-base font-black text-zinc-900 mb-2">經營寫字帳號</h3>
+              <p class="text-[15px] leading-[1.8] text-zinc-600">
+                興趣是寫字，在那個 IG 需要 10,000 粉絲才有上滑連結的年代（2019），當過一陣子的網紅。
+              </p>
+              <p class="text-xs text-zinc-400 mt-2">@twohorse_</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/watch?v=97DIqRapAH8" target="_blank" class="reveal pixel-border-thin card-hover bg-white overflow-hidden block border-b-0">
+          <div class="md:flex">
+            <div class="md:w-56 md:shrink-0 h-48 md:h-auto overflow-hidden">
+              <img src="meme.jpg" alt="迷因本人" class="w-full h-full object-cover" />
+            </div>
+            <div class="p-5 flex flex-col justify-center">
+              <h3 class="text-base font-black text-zinc-900 mb-2">台灣迷因歷史的中流砥柱</h3>
+              <p class="text-[15px] leading-[1.8] text-zinc-600">
+                高中考完學測自然太絕望，被記者訪問時亂講話，10 年來每當有任何大考或是探討記者多白痴時總會被挖出來的迷因本人。
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 text-center border-t-2 border-zinc-100">
+      <div class="flex flex-wrap justify-center gap-5 text-sm text-zinc-400 mb-4">
+        <a href="mailto:fong54388@gmail.com" class="hover:text-zinc-900 border-b border-dashed border-zinc-300 hover:border-zinc-900 pb-0.5">Email</a>
+        <a href="https://github.com/twohorse0311" target="_blank" class="hover:text-zinc-900 border-b border-dashed border-zinc-300 hover:border-zinc-900 pb-0.5">GitHub</a>
+        <a href="https://www.linkedin.com/in/yuan-jie-fong-9289061b4" target="_blank" class="hover:text-zinc-900 border-b border-dashed border-zinc-300 hover:border-zinc-900 pb-0.5">LinkedIn</a>
+      </div>
+      <p class="font-pixel text-[8px] text-zinc-300 leading-loose">
+        BUILT WITH PIXELS · © 2025 馮元詰
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    // ========== TYPING EFFECT ==========
+    function typeWriter(el, text, speed, callback) {
+      let i = 0;
+      el.textContent = '';
+      function tick() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(tick, speed);
+        } else if (callback) callback();
+      }
+      tick();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const nameEl = document.getElementById('hero-name');
+      const titleEl = document.getElementById('hero-title');
+      const taglineEl = document.getElementById('hero-tagline');
+
+      typeWriter(nameEl, '馮元詰 Francis Fong', 80, () => {
+        titleEl.classList.add('cursor');
+        typeWriter(titleEl, '全端工程師', 120, () => {
+          setTimeout(() => {
+            titleEl.classList.remove('cursor');
+            taglineEl.style.transition = 'opacity 0.8s ease';
+            taglineEl.style.opacity = '1';
+          }, 800);
+        });
+      });
+    });
+
+    // ========== SCROLL REVEAL ==========
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ========== SCROLL PROGRESS ==========
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('scroll-progress').style.width = progress + '%';
+    });
+
+    // ========== NAV ==========
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 200) current = sec.id;
+      });
+      navBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.target === current));
+    });
+
+    // ========== FLOATING PARTICLES ==========
+    const pc = document.getElementById('particles');
+    function spawn() {
+      const p = document.createElement('div');
+      p.className = 'floating-pixel pixel-render';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animation = `float-up ${10 + Math.random() * 15}s linear`;
+      pc.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }
+    setInterval(spawn, 1200);
+  </script>
+</body>
+</html>

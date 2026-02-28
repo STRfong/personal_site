@@ -1,0 +1,183 @@
+%-------------------------
+% Resume in Latex
+% Author : Sourabh Bajaj
+% Website: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[pdftex]{hyperref}
+\usepackage{fancyhdr}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.375in}
+\addtolength{\evensidemargin}{-0.375in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item\small{
+    \textbf{#1}{: #2 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+\renewcommand{\labelitemii}{$\circ$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING-----------------
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{\href{https://github.com/twohorse0311}{\Large Yuan Jie(Francis) Fong}} & Email : \href{mailto:fong54388@gmail.com}{fong54388@gmail.com}\\
+  \href{https://www.linkedin.com/in/yuan-jie-fong-9289061b4}{https://www.linkedin.com/in/yuan-jie-fong-9289061b4} & Mobile : 0921803781 \\
+  Full-Stack Developer & \\
+\end{tabular*}
+
+
+%-----------EXPERIENCE-----------------
+\section{Working Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {STR Network}{Taipei, Taiwan}
+      {Software Engineer}{Jan. 2024 -- Present}
+      \resumeItemListStart
+        \resumeItem{\href{https://inviti.vip/}{VIP Management System}}
+          {Designed and built a real-time VIP management system using Django, PostgreSQL, WebSocket, and Redis, deployed on GCP via Zeabur. Applied DDD methodology with cross-departmental stakeholders to align with real business workflows. Enabled instant data synchronization across 10--50 internal users, reducing protocol coordinator workload by over 90\%.}
+        \resumeItem{Internal Accounting System}
+          {Developed a full-cycle accounting system handling reimbursement, remittance, and project prepayment workflows with Django and PostgreSQL. Conducted user research across operations and finance teams to map real workflows. Reduced processing time by over 70\% while achieving zero-error cash tracking accuracy.}
+        \resumeItem{\href{https://www.businessweekly.com.tw/event/ai100/}{Business Weekly AI 100}}
+          {Led AI-related development initiatives that contributed to STR Network being selected for the Business Weekly AI Innovation Top 100 list.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {National Taipei University, Department of Statistics}{Taipei, Taiwan}
+      {Course Lecturer}{Sept. 2025 -- Dec. 2025}
+      \resumeItemListStart
+        \resumeItem{Python Full-Stack Development Course}
+          {Designed and delivered a full-stack web development course using Python and Django for undergraduate students.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {\href{https://www.amiino.com.tw/}{Amiino Biotechnology}}{Taipei, Taiwan}
+      {Advertising Data Analyst}{Mar. 2025 -- Present}
+      \resumeItemListStart
+        \resumeItem{Ad Analytics Platform}
+          {Built a full-stack analytics platform with Django to consolidate 8 ad channels across 3 providers (Google Keyword/Pmax/YouTube, Facebook, Criteo, Yahoo, Bing). Established a Data ETL pipeline to aggregate cross-channel data into PostgreSQL with automated visualization dashboards for trend analysis and comparison.}
+        \resumeItem{AI-Powered Reporting}
+          {Integrated AI to automatically generate weekly data reports comparing cross-period performance, contributing to over 50\% ROAS growth in 2025.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Personal Studio(Film Industry)}{Taipei, Taiwan}
+      {Data Analyst}{Apr. 2021 -- Present}
+      \resumeItemListStart
+        \resumeItem{Data Analysis and Visualization}
+          {Built automated web crawlers to extract sales data from platform APIs, established a local database, and automated data cleaning, visualization, and monthly reporting.}
+        \resumeItem{Effectiveness}
+          {The monthly revenue has grown by 10 times from the initial joining, and cumulative revenue has generated over \$200,000(USD) in 2 years.}
+      \resumeItemListEnd
+
+
+  \resumeSubHeadingListEnd
+
+
+%-----------EDUCATION-----------------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {National Tsing Hua University, MBA}{Hsinchu, Taiwan}
+      {Majoring in Information Systems and Business Analysis}{Sept. 2022 -- Aug. 2024}
+    \resumeSubheading
+      {National Taipei University}{Taipei, Taiwan}
+      {Bachelor of Business Administration in Statistics.}{Sept. 2017 -- Jun. 2021}
+  \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------------
+\section{Awards and Projects Experience}
+  \resumeSubHeadingListStart
+    \resumeSubItem{\href{https://webconf.tw/}{Speaker at WebConf Taiwan 2025}}{Presented ``AI Time Leverage -- A Full-Stack Engineer's Solo Level-Up Journey'' at WebConf Taiwan 2025, sharing practical insights on leveraging AI to boost engineering productivity.}
+%     \resumeSubItem{Mac Setup}
+%       {Book that gives step by step instructions on setting up developer environment on Mac OS.}
+  \resumeSubHeadingListEnd
+
+%
+%--------PROGRAMMING SKILLS------------
+\section{Skill Summary}
+ \resumeSubHeadingListStart
+   \item{
+     \textbf{Programming Languages}{: Python, SQL, Ruby, JavaScript, R}
+   }
+   \item{
+     \textbf{Frameworks \& Tools}{: Django, Flask, Redis, WebSocket, PostgreSQL, Git, LaTeX}
+   }
+   \item{
+     \textbf{Cloud \& Infrastructure}{: GCP, Zeabur}
+   }
+   \item{
+     \textbf{Languages}{: Fluent in English and Native in Mandarin.}
+   }
+ \resumeSubHeadingListEnd
+
+%------------ExtraCurricular Experience-----------
+% \section{Extracurricular Activities Experience}
+% \resumeSubHeadingListStart
+%     \resumeSubheading
+%         {Fan Page "TwoHorse" with over 9000 followers}{Instagram}
+%       {Owner}{May. 2016 -- Present}
+%     \resumeSubheading
+%       {Dram Club}{CKHS}
+%       {Director}{Jul. 2015 -- Jun. 2016}
+% \resumeSubHeadingListEnd
+
+
+%-------------------------------------------
+\end{document}
